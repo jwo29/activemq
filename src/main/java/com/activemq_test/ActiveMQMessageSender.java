@@ -41,29 +41,20 @@ public class ActiveMQMessageSender {
 
 		// Enter a message
 		Scanner sc = new Scanner(System.in);
-		for(int i=0; i<5;i++) {
-			String my_msg = sc.next();
+		while(sc.hasNextLine()) {
+			String my_msg = sc.nextLine();
+			
 			message = session.createTextMessage(my_msg);
 			producer.send(message);
 			System.out.println("JMS Message Sent successfully:: " + message.getText());
 			Thread.sleep(1000);
 		}
+		
+		
+		// close
 		sc.close();
-		
-		// We will send a small text message
-//		message = session
-//				.createTextMessage("heeheeheee");
-		
-		// Here we are sending our message!
-//		producer.send(message);
-		
-		
-//		System.out.println("JMS Message Sent successfully:: " + message.getText());
+		producer.close();
 		session.close();
-	}
-	
-	// ack listener
-	public static void receiveAck() {
-		
+		connection.close();
 	}
 }
