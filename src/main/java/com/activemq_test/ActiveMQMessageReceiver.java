@@ -6,6 +6,7 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
@@ -20,31 +21,57 @@ public class ActiveMQMessageReceiver {
 	// The Queue receiver message from
 	private static String jmsQueue = "jiwoo_Queue";
 	
-	public static void main(String[] args) throws JMSException {
-		// Getting JMS connection from the server adn starting it
+	public static void main(String[] agrs) throws JMSException, Exception {
+		// Getting JMS connection from the server and starting it
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
 		Connection connection = connectionFactory.createConnection();
-		connection.start();
+		//connection.start();
 		
 		// Creating a session to send/receive JMS message.
+//		Session session = connection.createSession(false, 
+//				Session.AUTO_ACKNOWLEDGE);
+		
 		Session session = connection.createSession(false, 
-				Session.AUTO_ACKNOWLEDGE);
+				Session.CLIENT_ACKNOWLEDGE);
 		
 		// The queue will be created automatically on the server.
 		Destination destination = session.createQueue(jmsQueue);
 		
 		// MessageConsumer is used for receiving (consuming) messages.
 		MessageConsumer consumer = session.createConsumer(destination);
+	
+		consumer.setMessageListener(new MessageListener() {
+			@Override
+			public void onMessage(Message message) {
+				TextMessage textMessage = (TextMessage) message;
+				try {
+					System.out.println("Received Message: " + textMessage.getText());
+					message.acknowledge();
+				} catch (JMSException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		connection.start();
 		
-		// Here we receive the message.
-		Message message = consumer.receive();
+		Thread.sleep(1000000);
+		session.close();
 		
-		// We will be using TextMessage in our example. MessageProducer sent us a TextMessage.
-		if (message instanceof TextMessage) {
-			TextMessage textMessage = (TextMessage) message;
-			System.out.println("JMS Message Received successfully:: '" + textMessage.getText() + "'");
-		}
+//		// Here we receive the message.
+//		Message message = consumer.receive();
+//		
+//		// We will be using TextMessage in our example. MessageProducer sent us a TextMessage.
+//		if (message instanceof TextMessage) {
+//			TextMessage textMessage = (TextMessage) message;
+//			System.out.println("JMS Message Received successfully:: '" + textMessage.getText() + "'");
+//			message.acknowledge();
+//		}
 		
 		connection.close();
+	}
+	
+	public static void sendAck() {
+		
 	}
 }
