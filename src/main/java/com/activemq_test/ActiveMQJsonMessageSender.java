@@ -1,4 +1,4 @@
-package com.activemq_test;
+package com.work;
 
 import java.io.File;
 import java.io.FileReader;
@@ -11,6 +11,7 @@ import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -25,7 +26,7 @@ public class ActiveMQJsonMessageSender {
 	// default broker URL is: tcp://localhost:61616
 	private static String jmsQueue = "document_queue";
 
-	private static String dirPath = "C:\\prj_jiwoo\\java\\activemq-test\\src\\main\\resources\\static\\files\\";
+	private static String dirPath = "C:\\prj_jiwoo\\java\\fileProcess\\fileProcess\\src\\main\\resources\\static\\files";
 	
 	public static void main(String[] args) throws JMSException, IOException, ParseException, InterruptedException {
 		
@@ -63,14 +64,14 @@ public class ActiveMQJsonMessageSender {
 			
 			System.out.println(jsonObject.toString());
 		
-			// set json object message
-			ObjectMessage objectMessage = session.createObjectMessage();
-			objectMessage.setObject(jsonObject);
+			// exchange json object to text object
+			TextMessage textMessage = session.createTextMessage();
+			textMessage.setText(jsonObject.toJSONString());
 			
 			// send json object message
-			producer.send(objectMessage);
+			producer.send(textMessage);
 			
-			System.out.println("JSON Message Sent successfully:: " + objectMessage.getObject().toString());
+			System.out.println("Text Message Sent successfully:: " + textMessage.getText());
 			Thread.sleep(1000);
 		}
 		
