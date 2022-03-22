@@ -9,26 +9,34 @@ import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.camunda.bpm.engine.delegate.DelegateExecution;
+import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.springframework.stereotype.Service;
 
-public class ActiveMQJsonMessageSender {
+@Service("activeMQJsonMessageSender")
+//public class ActiveMQJsonMessageSender {
+public class ActiveMQJsonMessageSender implements JavaDelegate {
+	
 	// URL of the JMS server
 	private static String url = ActiveMQConnection.DEFAULT_BROKER_URL;
 	
 	// default broker URL is: tcp://localhost:61616
 	private static String jmsQueue = "document_queue";
 
-	private static String dirPath = "C:\\prj_jiwoo\\java\\fileProcess\\fileProcess\\src\\main\\resources\\static\\files";
+	private static String ROOT_ABS_PATH = "C:\\prj_jiwoo\\java\\fileProcess\\fileProcess\\src\\main\\resources\\static\\files";
+//	private static String DOC_FILE_DIR_ABS_PATH = ROOT_ABS_PATH + File.separator + "_documentFileList";
+	private static String DOC_EXTR_DIR_ABS_PATH = ROOT_ABS_PATH + File.separator + "_documentFileExtractions";
 	
-	public static void main(String[] args) throws JMSException, IOException, ParseException, InterruptedException {
+	//public static void main(String[] args) throws JMSException, IOException, ParseException, InterruptedException {
+	public void execute(DelegateExecution execution) throws JMSException, IOException, ParseException, InterruptedException {
 		
 		// Getting JMS connection from the server and starting it
 		ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
@@ -48,8 +56,7 @@ public class ActiveMQJsonMessageSender {
 		// Send JSON message
 		
 		// Get file list
-		String jsonFileDirectoryName = dirPath + "\\_documentFileExtractions";
-		File jsonFileDirectory = new File(jsonFileDirectoryName);
+		File jsonFileDirectory = new File(DOC_EXTR_DIR_ABS_PATH);
 		File[] fileList = jsonFileDirectory.listFiles();
 		
 

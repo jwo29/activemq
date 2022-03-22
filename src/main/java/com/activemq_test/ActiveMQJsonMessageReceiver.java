@@ -22,6 +22,9 @@ public class ActiveMQJsonMessageReceiver {
 	private static String url = ActiveMQConnection.DEFAULT_BROKER_URL;
 	// default broker URL is: tcp://localhost:61616
 	
+	private final static String ACTIVE_MQ_USERNAME = "admin";
+	private final static String ACTIVE_MQ_PASSWORD = "admin";
+	
 	// The queue receiver message from
 	private static String jmsQueue = "document_queue";
 	
@@ -31,7 +34,10 @@ public class ActiveMQJsonMessageReceiver {
 		// Getting JMS connection from the server and starting it
 		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
 		//connectionFactory.setTrustedPackages(new ArrayList(Arrays.asList("org.json.simple.JSONObject".split(","))));
-		connectionFactory.setTrustAllPackages(true); // to trust org.json.simple.JSONObject
+		//connectionFactory.setTrustAllPackages(true); // to trust org.json.simple.JSONObject
+		
+		connectionFactory.setUserName(ACTIVE_MQ_USERNAME);
+		connectionFactory.setPassword(ACTIVE_MQ_PASSWORD);
 		Connection connection = connectionFactory.createConnection();
 		connection.start();
 		
