@@ -1,52 +1,147 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com</groupId>
-  <artifactId>activemq-test</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
-
-  <name>activemq-test</name>
-  <url>http://www.example.com</url>
+  <groupId>com.work</groupId>
+  <artifactId>fileProcess</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>2.5.4</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.camunda.bpm</groupId>
+        <artifactId>camunda-bom</artifactId>
+        <version>7.16.0</version>
+        <scope>import</scope>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
-  	
+    <dependency>
+      <groupId>org.camunda.bpm.springboot</groupId>
+      <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.camunda.bpm.springboot</groupId>
+      <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.camunda.bpm</groupId>
+      <artifactId>camunda-engine-plugin-spin</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.camunda.spin</groupId>
+      <artifactId>camunda-spin-dataformat-all</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jdbc</artifactId>
+    </dependency>
+    
+	<!-- 
   	<dependency>
-  	  <groupId>org.springframework.boot</groupId>
-  	  <artifactId>spring-boot-starter-activemq</artifactId>
-  	  <version>2.6.4</version>
+  	  <groupId>org.apache.activemq</groupId>
+  	  <artifactId>activemq-all</artifactId>
+  	  <version>5.16.4</version>
   	</dependency>
+  	-->
   	
+  	<!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-client -->
+	<dependency>
+	  <groupId>org.apache.activemq</groupId>
+	  <artifactId>activemq-client</artifactId>
+	  <version>5.16.4</version>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-pool -->	
+	<dependency>
+	  <groupId>org.apache.activemq</groupId>
+	  <artifactId>activemq-pool</artifactId>
+	  <version>5.16.4</version>
+	</dependency>
+	
+  	<!-- https://mvnrepository.com/artifact/org.apache.activemq/activemq-broker -->
+	<!--
+	<dependency>
+	  <groupId>org.apache.activemq</groupId>
+	  <artifactId>activemq-broker</artifactId>
+	  <version>5.16.4</version>
+	</dependency>
+	-->
+  	
+  	<!-- https://mvnrepository.com/artifact/org.apache.tika/tika-core -->
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.7.1</version>
-      <scope>test</scope>
+      <groupId>org.apache.tika</groupId> 
+      <artifactId>tika-core</artifactId> 
+      <version>1.24.1</version>
+    </dependency> 
+    
+    <!-- https://mvnrepository.com/artifact/org.apache.tika/tika-parsers -->
+	<dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-parsers</artifactId>
+      <version>1.24.1</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->
+	<dependency>
+	  <groupId>org.imgscalr</groupId>
+	  <artifactId>imgscalr-lib</artifactId>
+	  <version>4.2</version>
+	</dependency>
+	
+	
+	<!-- https://mvnrepository.com/artifact/net.bramp.ffmpeg/ffmpeg -->
+	<dependency>
+	  <groupId>net.bramp.ffmpeg</groupId>
+	  <artifactId>ffmpeg</artifactId>
+	  <version>0.6.2</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.bytedeco/javacv -->
+	<dependency>
+      <groupId>org.bytedeco</groupId>
+      <artifactId>javacv-platform</artifactId>
+      <version>1.5.7</version>
     </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-params</artifactId>
-      <version>5.7.1</version>
-      <scope>test</scope>
-    </dependency>
+	
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0-M5</version>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <version>2.5.4</version>
       </plugin>
     </plugins>
   </build>
+
 </project>
